@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  redis:
+    image: redis:5-alpine
+
+  torproxy:
+    image: dperson/torproxy
+    container_name: torproxy
+    command: "-p 'password'"
+    # ports:
+    #   - "8118:8118"
+    #   - "9050:9050"
+    #   - "9051:9051"
+    #   - "9053:9053"
+    network_mode: "service:app"
+
+  app:
+    build: .
+    command: bash -c ./run.sh
+    volumes:
+      - .:/code
